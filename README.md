@@ -15,9 +15,11 @@ docker network create mynetwork
 docker-compose up mysql_container_1 mysql_container_2 mysql_container_3 -d
 ```
 
-This may not work so please check all container works with the following (on average three times?)
+This may not work so please check all container works with the following (on average run the following three times?)
 ```
 docker-compose ps
+docker-compose down
+docker-compose up mysql_container_1 mysql_container_2 mysql_container_3 -d
 ```
 If all three containers are working, then you are good to go.
 
