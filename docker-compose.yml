@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+  mysql_container_1:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db1
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: password1
+    ports:
+      - "3306:3306"
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+    volumes:
+      - ./db1:/docker-entrypoint-initdb.d
+    networks:
+      - mynetwork
+
+  mysql_container_2:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db2
+      MYSQL_USER: user2
+      MYSQL_PASSWORD: password2
+    ports:
+      - "3307:3306"
+    expose:
+      # Opens port 3306 on the container
+      - '3307'
+    volumes:
+      - ./db2:/docker-entrypoint-initdb.d
+    networks:
+      - mynetwork
+
+  mysql_container_3:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db3
+      MYSQL_USER: user3
+      MYSQL_PASSWORD: password3
+    ports:
+      - "3308:3306"
+    expose:
+      - '3308'
+    volumes:
+      - ./db3:/docker-entrypoint-initdb.d
+    networks:
+      - mynetwork
+
+networks:
+   mynetwork:

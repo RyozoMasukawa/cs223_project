@@ -1,0 +1,30 @@
+-- Start transaction for db1
+CALL db1.start_transaction();
+
+-- T1,1: Check the existence of user id x1 in db1
+SELECT COUNT(*) INTO @user1_exists FROM db1.User WHERE ID = 1;
+
+-- T1,2: Check the existence of user id x2 in db1
+SELECT COUNT(*) INTO @user2_exists FROM db1.User WHERE ID = 2;
+
+-- Perform operations on db1
+-- ...
+
+-- Commit or rollback transaction for db1
+-- (based on your logic)
+
+-- Start transaction for db2
+CALL db2.start_transaction();
+
+-- T1,4: Update user x2’s friend list in db2
+SELECT COUNT(*) INTO @user1_exists FROM db2.User WHERE ID = 1;
+SELECT COUNT(*) INTO @user2_exists FROM db2.User WHERE ID = 2;
+
+IF @user1_exists > 0 AND @user2_exists > 0 THEN
+    INSERT INTO db2.Friendship(User1, User2, Timestamp) VALUES (1, 2, NOW());
+    -- Commit the transaction for db2
+    COMMIT;
+ELSE
+    -- Rollback the transaction for db2
+    ROLLBACK;
+END IF;
