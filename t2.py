@@ -51,8 +51,13 @@ def execute_transaction(user1_id, user2_id):
         if user1_exists > 0 and user2_exists > 0:
             cursor2.execute("START TRANSACTION")
             cursor2.execute("DELETE FROM Friendship WHERE User1 = %s AND User2 = %s", (user1_id, user2_id))
+            cursor1.execute("UPDATE User SET Numfriend=Numfriend-1 WHERE ID = %s", (user2_id, ))
+            cursor1.execute("COMMIT")
             cursor2.execute("COMMIT")
             
+            cursor3.execute("START TRANSACTION")
+            cursor3.execute("INSERT INTO Post(ID, User, Content, Likes, Comments, Timestamp) VALUES(%s, %s, %s, %s, %s, NOW())", (1, user2_id, "I'm no longer a friend of user1!", 0, 0))
+            cursor3.execute("COMMIT")
         else:
             # Rollback the transaction if users do not exist
             cursor1.execute("ROLLBACK")
@@ -60,10 +65,6 @@ def execute_transaction(user1_id, user2_id):
         
         # Commit the transaction
         cursor1.execute("COMMIT")
-
-        cursor3.execute("START TRANSACTION")
-        cursor3.execute("INSERT INTO Post(ID, User, Content, Likes, Comments, Timestamp) VALUES(%s, %s, %s, %s, %s, NOW())", (1, user2_id, "I'm no longer a friend of user1!", 0, 0))
-        cursor3.execute("COMMIT")
         
 
     except Exception as e:

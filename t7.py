@@ -42,11 +42,10 @@ def execute_transaction(user4_id):
             cursor3.execute("UPDATE Comment SET Upvotes=Upvotes+1 WHERE ID = 1")
             cursor3.execute("SELECT Upvotes FROM Comment WHERE ID = 2")
             num_upvotes = cursor3.fetchone()[0]
-            cursor3.execute("COMMIT")
             if num_upvotes >= 0:
                 cursor1.execute("UPDATE User SET Accolade=1 WHERE ID = %s", (1,))
-            
-            
+            cursor3.execute("COMMIT")
+            cursor1.execute("COMMIT")            
         else:
             # Rollback the transaction if users do not exist
             cursor1.execute("ROLLBACK")

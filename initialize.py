@@ -31,7 +31,8 @@ db1_tables = {
             DateOfBirth DATE,
             Email VARCHAR(255),
             Accolade BOOLEAN,
-            Story TEXT
+            Numpost INT,
+            Numfriend INT
         )
     """
 }

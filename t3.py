@@ -47,6 +47,8 @@ def execute_transaction(user1_id, user2_id):
             cursor3.execute("SELECT Content INTO @previous_content FROM Post WHERE id = 1;")
             cursor3.execute("INSERT INTO Post (ID, User, Content, Likes, Comments, Timestamp) VALUES (2, 1, CONCAT(@previous_content, 'Contents of s1'), 0, 0, NOW());")
             cursor3.execute("COMMIT")
+            cursor1.execute("UPDATE User SET Numpost=Numpost+1 WHERE ID=%s", (user1_id,))
+            cursor1.execute("COMMIT")
             
         else:
             # Rollback the transaction if users do not exist
@@ -67,3 +69,5 @@ def execute_transaction(user1_id, user2_id):
 user1_id = 1
 user2_id = 2
 execute_transaction(user1_id, user2_id)
+
+
