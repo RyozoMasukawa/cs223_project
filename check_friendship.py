@@ -8,7 +8,7 @@ def check_friendship():
         
         connection = mysql.connector.connect(
             host="127.0.0.1",
-            port="3307",
+            port="3308",
             user=root_user,
             password=root_pass,
             database="db2"
@@ -21,7 +21,7 @@ def check_friendship():
         cursor.execute("START TRANSACTION")
 
         # T1,1: Check the existence of user id x1
-        cursor.execute(f"SELECT * FROM Friendship")
+        cursor.execute(f"SELECT * FROM Follow")
         friendship = cursor.fetchone()
         print(friendship)
         

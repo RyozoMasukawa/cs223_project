@@ -1,6 +1,7 @@
 import mysql.connector
+import argparse
 
-def execute_transaction(user1_id, user2_id):
+def execute_transaction(user1_id, is_show):
     try:
         # Establish a connection to your MySQL database
         root_user = "root"
@@ -14,27 +15,10 @@ def execute_transaction(user1_id, user2_id):
             database="db1"
         )
 
-        connection2 = mysql.connector.connect(
-            host="127.0.0.1",
-            user=root_user,
-            port="3308",
-            password=root_pass,
-            database="db2"
-        )
-
-        connection3 = mysql.connector.connect(
-            host="127.0.0.1",
-            user=root_user,
-            port="3309",
-            password=root_pass,
-            database="db3"
-        )
 
         # Create a cursor object to execute SQL queries
         cursor1= connection1.cursor()
-        cursor2= connection2.cursor()
-        cursor3= connection3.cursor()
-
+        
         # Start the transaction
         cursor1.execute("START TRANSACTION")
 
@@ -42,22 +26,15 @@ def execute_transaction(user1_id, user2_id):
         cursor1.execute(f"SELECT COUNT(*) FROM User WHERE id = %s", (user1_id,))
         user1_exists = cursor1.fetchone()[0]
 
-        # T1,2: Check the existence of user id x2
-        cursor1.execute("SELECT COUNT(*) FROM User WHERE id = %s", (user2_id,))
-        user2_exists = cursor1.fetchone()[0]
 
         # T1,3: Update user x1’s friend list
         # T1,4: Update user x2’s friend list
-        if user1_exists > 0 and user2_exists > 0:
-            cursor2.execute("START TRANSACTION")
-            cursor2.execute("DELETE FROM Friendship WHERE User1 = %s AND User2 = %s", (user1_id, user2_id))
-            cursor1.execute("UPDATE User SET Numfriend=Numfriend-1 WHERE ID = %s", (user2_id, ))
-            cursor1.execute("COMMIT")
-            cursor2.execute("COMMIT")
+        if user1_exists > 0:
+            cursor1.execute(f"SELECT * FROM User WHERE id = %s", (user1_id,))
+            user1_info = cursor1.fetchone()
+            if is_show:
+                print(user1_info)
             
-            cursor3.execute("START TRANSACTION")
-            cursor3.execute("INSERT INTO Post(User, Content, Likes, Comments, Timestamp) VALUES(%s, %s, %s, %s, NOW())", (user2_id, "I'm no longer a friend of user1!", 0, 0))
-            cursor3.execute("COMMIT")
         else:
             # Rollback the transaction if users do not exist
             cursor1.execute("ROLLBACK")
@@ -73,11 +50,12 @@ def execute_transaction(user1_id, user2_id):
     finally:
         # Close the cursor and connection
         cursor1.close()
-        cursor2.close()
         connection1.close()
-        connection2.close()
 
 # Example usage
-user1_id = 1
-user2_id = 2
-execute_transaction(user1_id, user2_id)
+parser = argparse.ArgumentParser(description="My parser")
+if __name__=="__main__":
+    parser.add_argument('--user1id', type=int,default=1, help='an integer for the accumulator')
+    parser.add_argument('--show', action='store_true', default=False)
+    args = parser.parse_args()
+    execute_transaction(args.user1id, args.show)

@@ -1,27 +1,37 @@
 #!/bin/bash
 
-# Set the number of iterations
-iterations=10
-progress_interval=10
+# List of transactions
+transactions=("t1.py" "t2.py" "t3.py" "t4.py" "t5.py" "t6.py" "t7.py")
+
+# Number of repetitions for each transaction
+repetitions=2
 
 # Measure start time
 start_time=$(date +%s.%N)
 
-# Loop for the specified number of iterations
-for ((i=1; i<=$iterations; i++))
-do
-    python t1.py
-    python t2.py
-    python t3.py
-    python t4.py
-    python t5.py
-    python t6.py
-    python t7.py
+# Function to run transactions
+run_transactions() {
+    for _ in $(seq $repetitions); do
+        # Randomly shuffle the transactions
+        shuffled_transactions=($(shuf -e "${transactions[@]}"))
 
-    # Display progress every 1000 iterations
-    if [ $((i % progress_interval)) -eq 0 ]; then
-        echo "Progress: $i / $iterations iterations"
-    fi
+        # Run each transaction
+        for transaction in "${shuffled_transactions[@]}"; do
+            python "$transaction" &
+	    python "$transaction" &
+
+	    # Wait for all transactions in this batch to finish
+            wait
+        done
+
+        
+    done
+}
+
+# Run transactions concurrently
+parallel_processes=2
+for _ in $(seq $parallel_processes); do
+    run_transactions
 done
 
 # Measure end time
@@ -30,14 +40,14 @@ end_time=$(date +%s.%N)
 # Calculate elapsed time
 elapsed_time=$(echo "$end_time - $start_time" | bc)
 
-# Calculate throughput (transactions per second)
-throughput=$(echo "scale=2; $iterations / $elapsed_time" | bc)
-
 # Calculate latency (time per transaction in milliseconds)
-latency=$(echo "scale=4; $elapsed_time * 1000 / $iterations" | bc)
+total_iterations=$((parallel_processes * repetitions * ${#transactions[@]}))
+latency=$(echo "scale=4; $elapsed_time * 1000 / $total_iterations" | bc)
 
 # Print results
-echo "Iterations: $iterations"
+echo "Transactions: ${transactions[@]}"
+echo "Repetitions per Transaction: $repetitions"
+echo "Parallel Processes: $parallel_processes"
+echo "Total Iterations: $total_iterations"
 echo "Elapsed Time: $elapsed_time seconds"
-echo "Throughput: $throughput transactions per second"
 echo "Latency: $latency milliseconds per transaction"

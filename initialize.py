@@ -38,7 +38,7 @@ db1_tables = {
 }
 
 db2_tables = {
-    "Friendship": """
+    "Follow": """
         (
             ID INT AUTO_INCREMENT PRIMARY KEY,
             User1 INT,
