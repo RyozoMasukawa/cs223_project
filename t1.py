@@ -42,7 +42,9 @@ def execute_transaction(user1_id, user2_id):
         if user1_exists > 0 and user2_exists > 0:
             cursor2.execute("START TRANSACTION")
             cursor2.execute("INSERT INTO Follow(User1, User2, Timestamp) VALUES(%s, %s, NOW())", (user2_id, user1_id))
+            cursor1.execute("UPDATE User SET Numfollow = Numfollow + 1 WHERE ID = %s;", (user1_id,))
             cursor2.execute("COMMIT")
+            cursor1.execute("COMMIT")
             
         else:
             # Rollback the transaction if users do not exist
