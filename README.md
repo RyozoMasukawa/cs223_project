@@ -36,14 +36,11 @@ mysql -h 127.0.0.1 -P 3306 -u root -p < init_user.sql
 Note: the password should be "root_password" as defined in docker-compose.yml
 
 
-#### 4. Now you are ready to run all 7 transactions!, check_***.py is a code to check the status of each table items.
+#### 4. Now you are ready to run all 7 transactions! You can run the following shell script to evaluate the throughput and latency
 
 e.g
 ```
-python3 check_users.py
-python3 t1.py
-python3 check_friendship.py
-python3 t2.py
-python3 check_friendship.py
+chmod +x run.sh
+./run.sh
 .....
 ```
