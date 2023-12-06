@@ -8,7 +8,7 @@ def check_friendship():
         
         connection = mysql.connector.connect(
             host="127.0.0.1",
-            port="3308",
+            port="3309",
             user=root_user,
             password=root_pass,
             database="db3"

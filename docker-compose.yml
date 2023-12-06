@@ -9,7 +9,7 @@ services:
       MYSQL_USER: user1
       MYSQL_PASSWORD: password1
     ports:
-      - "3306:3306"
+      - "3307:3306"
     expose:
       # Opens port 3306 on the container
       - '3306'
@@ -26,10 +26,10 @@ services:
       MYSQL_USER: user2
       MYSQL_PASSWORD: password2
     ports:
-      - "3307:3306"
+      - "3308:3306"
     expose:
       # Opens port 3306 on the container
-      - '3307'
+      - '3308'
     volumes:
       - ./db2:/docker-entrypoint-initdb.d
     networks:
@@ -43,9 +43,9 @@ services:
       MYSQL_USER: user3
       MYSQL_PASSWORD: password3
     ports:
-      - "3308:3306"
+      - "3309:3306"
     expose:
-      - '3308'
+      - '3309'
     volumes:
       - ./db3:/docker-entrypoint-initdb.d
     networks:

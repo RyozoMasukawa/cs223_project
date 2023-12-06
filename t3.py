@@ -8,7 +8,7 @@ def execute_transaction(user1_id, user2_id):
         
         connection1 = mysql.connector.connect(
             host="127.0.0.1",
-            port="3306",
+            port="3307",
             user=root_user,
             password=root_pass,
             database="db1"
@@ -17,7 +17,7 @@ def execute_transaction(user1_id, user2_id):
         connection3 = mysql.connector.connect(
             host="127.0.0.1",
             user=root_user,
-            port="3308",
+            port="3309",
             password=root_pass,
             database="db3"
         )
@@ -45,7 +45,7 @@ def execute_transaction(user1_id, user2_id):
         # T1,4: Update user x2’s friend list
         if user1_exists > 0 and user2_exists > 0 and post_exists > 0:
             cursor3.execute("SELECT Content INTO @previous_content FROM Post WHERE id = 1;")
-            cursor3.execute("INSERT INTO Post (ID, User, Content, Likes, Comments, Timestamp) VALUES (2, 1, CONCAT(@previous_content, 'Contents of s1'), 0, 0, NOW());")
+            cursor3.execute("INSERT INTO Post (User, Content, Likes, Comments, Timestamp) VALUES (1, CONCAT(@previous_content, 'Contents of s1'), 0, 0, NOW());")
             cursor3.execute("COMMIT")
             cursor1.execute("UPDATE User SET Numpost=Numpost+1 WHERE ID=%s", (user1_id,))
             cursor1.execute("COMMIT")

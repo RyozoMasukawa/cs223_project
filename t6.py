@@ -8,7 +8,7 @@ def execute_transaction(user1_id):
         
         connection1 = mysql.connector.connect(
             host="127.0.0.1",
-            port="3306",
+            port="3307",
             user=root_user,
             password=root_pass,
             database="db1"
@@ -17,7 +17,7 @@ def execute_transaction(user1_id):
         connection3 = mysql.connector.connect(
             host="127.0.0.1",
             user=root_user,
-            port="3308",
+            port="3309",
             password=root_pass,
             database="db3"
         )
@@ -38,7 +38,7 @@ def execute_transaction(user1_id):
         # T1,4: Update user x2’s friend list
         if user1_exists > 0:
             cursor3.execute("START TRANSACTION")
-            cursor3.execute("INSERT INTO Comment (ID, User, Post, Text, Timestamp, Upvotes) VALUES (2, 1, 2, %s, NOW(), 0);", ("I’m so sad user x2 is no longer my friend 🙁",))
+            cursor3.execute("INSERT INTO Comment (User, Post, Text, Timestamp, Upvotes) VALUES (1, 2, %s, NOW(), 0);", ("I’m so sad user x2 is no longer my friend 🙁",))
             cursor3.execute("UPDATE Post SET Comments=Comments+1 WHERE ID = 2")
             cursor3.execute("COMMIT")
             

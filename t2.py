@@ -8,7 +8,7 @@ def execute_transaction(user1_id, user2_id):
         
         connection1 = mysql.connector.connect(
             host="127.0.0.1",
-            port="3306",
+            port="3307",
             user=root_user,
             password=root_pass,
             database="db1"
@@ -17,7 +17,7 @@ def execute_transaction(user1_id, user2_id):
         connection2 = mysql.connector.connect(
             host="127.0.0.1",
             user=root_user,
-            port="3307",
+            port="3308",
             password=root_pass,
             database="db2"
         )
@@ -25,7 +25,7 @@ def execute_transaction(user1_id, user2_id):
         connection3 = mysql.connector.connect(
             host="127.0.0.1",
             user=root_user,
-            port="3308",
+            port="3309",
             password=root_pass,
             database="db3"
         )
@@ -56,7 +56,7 @@ def execute_transaction(user1_id, user2_id):
             cursor2.execute("COMMIT")
             
             cursor3.execute("START TRANSACTION")
-            cursor3.execute("INSERT INTO Post(ID, User, Content, Likes, Comments, Timestamp) VALUES(%s, %s, %s, %s, %s, NOW())", (1, user2_id, "I'm no longer a friend of user1!", 0, 0))
+            cursor3.execute("INSERT INTO Post(User, Content, Likes, Comments, Timestamp) VALUES(%s, %s, %s, %s, NOW())", (user2_id, "I'm no longer a friend of user1!", 0, 0))
             cursor3.execute("COMMIT")
         else:
             # Rollback the transaction if users do not exist

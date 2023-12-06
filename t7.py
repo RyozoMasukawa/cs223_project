@@ -8,7 +8,7 @@ def execute_transaction(user4_id):
         
         connection1 = mysql.connector.connect(
             host="127.0.0.1",
-            port="3306",
+            port="3307",
             user=root_user,
             password=root_pass,
             database="db1"
@@ -17,7 +17,7 @@ def execute_transaction(user4_id):
         connection3 = mysql.connector.connect(
             host="127.0.0.1",
             user=root_user,
-            port="3308",
+            port="3309",
             password=root_pass,
             database="db3"
         )

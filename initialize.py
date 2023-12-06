@@ -51,7 +51,7 @@ db2_tables = {
 db3_tables = {
     "Post": """
         (
-            ID INT PRIMARY KEY,
+            ID INT AUTO_INCREMENT PRIMARY KEY,
             User INT,
             Content TEXT,
             Likes INT,
@@ -61,7 +61,7 @@ db3_tables = {
     """,
     "Comment": """
         (
-            ID INT PRIMARY KEY,
+            ID INT AUTO_INCREMENT PRIMARY KEY,
             User INT,
             Post INT,
             Text TEXT,
@@ -77,7 +77,7 @@ root_user = "root"
 root_password = "root_password"
 database_config_1 = {
     "host": "127.0.0.1",
-    "port": "3306",
+    "port": "3307",
     "user": root_user,
     "password": root_password,
     "database": "db1"
@@ -86,7 +86,7 @@ database_config_1 = {
 # Example usage for mysql_container_2
 database_config_2 = {
     "host": "127.0.0.1",
-    "port": "3307",
+    "port": "3308",
     "user": root_user,
     "password": root_password,
     "database": "db2"
@@ -95,7 +95,7 @@ database_config_2 = {
 # Example usage for mysql_container_3
 database_config_3 = {
     "host": "127.0.0.1",
-    "port": "3308",
+    "port": "3309",
     "user": root_user,
     "password": root_password,
     "database": "db3"
