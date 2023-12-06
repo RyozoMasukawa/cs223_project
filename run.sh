@@ -4,7 +4,7 @@
 transactions=("t1.py" "t2.py" "t3.py" "t4.py" "t5.py" "t6.py" "t7.py")
 
 # Number of repetitions for each transaction
-repetitions=2
+repetitions=100
 
 # Measure start time
 start_time=$(date +%s.%N)
@@ -44,6 +44,9 @@ elapsed_time=$(echo "$end_time - $start_time" | bc)
 total_iterations=$((parallel_processes * repetitions * ${#transactions[@]}))
 latency=$(echo "scale=4; $elapsed_time * 1000 / $total_iterations" | bc)
 
+# Calculate throughput (transactions per second)
+throughput=$(echo "scale=2; $total_iterations / $elapsed_time" | bc)
+
 # Print results
 echo "Transactions: ${transactions[@]}"
 echo "Repetitions per Transaction: $repetitions"
@@ -51,3 +54,4 @@ echo "Parallel Processes: $parallel_processes"
 echo "Total Iterations: $total_iterations"
 echo "Elapsed Time: $elapsed_time seconds"
 echo "Latency: $latency milliseconds per transaction"
+echo "Throughput: $throughput transactions per second"
