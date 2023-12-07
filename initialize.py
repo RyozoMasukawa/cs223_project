@@ -32,7 +32,7 @@ db1_tables = {
             Email VARCHAR(255),
             Accolade BOOLEAN,
             Numpost INT,
-            Numfriend INT
+            Numfollow INT
         )
     """
 }
